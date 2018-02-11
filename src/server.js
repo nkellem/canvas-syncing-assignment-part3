@@ -19,35 +19,35 @@ console.log(`Listening on localhost:${PORT}`);
 // pass in the http server into socketio and grab the websocket sever as io
 const io = socketio(app);
 
-let draws = {};
+const draws = {};
 
-const onJoined = sock => {
+const onJoined = (sock) => {
   const socket = sock;
 
-  socket.on('join', data => {
+  socket.on('join', (data) => {
     draws[data.name] = data.coords;
 
     socket.join('room1');
   });
 };
 
-const onUpdateServerStack = sock => {
+const onUpdateServerStack = (sock) => {
   const socket = sock;
 
-  socket.on('updateServerStack', data => {
+  socket.on('updateServerStack', (data) => {
     draws[data.name] = data.coords;
 
-    io.sockets.in('room1').emit('updateClientStack', {name: data.name, coords: data.coords});
+    io.sockets.in('room1').emit('updateClientStack', { name: data.name, coords: data.coords });
   });
 };
 
-const onDisconnect = sock => {
+const onDisconnect = (sock) => {
   const socket = sock;
 
   socket.on('disconnect', () => {
-    const {name} = socket;
+    const { name } = socket;
     socket.leave('room1');
-    io.sockets.in('room1').emit('deleteOtherClient', {name});
+    io.sockets.in('room1').emit('deleteOtherClient', { name });
 
     if (draws[name]) {
       delete draws[name];
@@ -55,7 +55,7 @@ const onDisconnect = sock => {
   });
 };
 
-io.sockets.on('connection', socket => {
+io.sockets.on('connection', (socket) => {
   console.log('started');
 
   onJoined(socket);

@@ -21,7 +21,9 @@
   "devDependencies": {
     "eslint": "^4.17.0",
     "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-import": "^2.8.0"
+  },
+  "dependencies": {
     "socket.io": "^2.0.4"
   }
 }
